@@ -7,8 +7,8 @@ import config
 logger = logging.getLogger(__name__)
 
 client = AsyncOpenAI(
-    base_url="https://api.groq.com/openai/v1",
-    api_key=config.OPENROUTER_API_KEY,  # or whatever env var name you use
+    base_url=config.LLM_BASE_URL,
+    api_key=config.LLM_API_KEY,
 )
 
 IN_CHARACTER_FALLBACKS = [
