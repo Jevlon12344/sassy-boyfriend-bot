@@ -6,7 +6,7 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 BOT_USERNAME = os.getenv("BOT_USERNAME", "").lower().replace("@", "")
 
-# Routing securely back to OpenRouter's free tier
-LLM_API_KEY = os.getenv("OPENROUTER_API_KEY")
+# Groq endpoint & credentials
+LLM_API_KEY = os.getenv("GROQ_API_KEY")
 LLM_BASE_URL = "https://api.groq.com/openai/v1"
 ACTIVE_MODEL = "llama-3.3-70b-versatile"
