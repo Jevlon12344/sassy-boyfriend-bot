@@ -8,4 +8,4 @@ BOT_USERNAME = os.getenv("BOT_USERNAME", "").lower().replace("@", "")
 
 LLM_API_KEY = os.getenv("GROQ_API_KEY") or os.getenv("OPENROUTER_API_KEY")
 LLM_BASE_URL = "https://api.groq.com/openai/v1"
-ACTIVE_MODEL = "llama-3.1-8b-instant"
+ACTIVE_MODEL = "openai/gpt-oss-20b"
