@@ -8,5 +8,5 @@ BOT_USERNAME = os.getenv("BOT_USERNAME", "").lower().replace("@", "")
 
 # Routing securely back to OpenRouter's free tier
 LLM_API_KEY = os.getenv("OPENROUTER_API_KEY")
-LLM_BASE_URL = "https://openrouter.ai/api/v1"
-ACTIVE_MODEL = "openrouter/free"
+LLM_BASE_URL = "https://api.groq.com/openai/v1"
+ACTIVE_MODEL = "llama-3.3-70b-versatile"
