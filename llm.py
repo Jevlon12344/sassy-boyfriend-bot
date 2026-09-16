@@ -38,7 +38,6 @@ async def generate_reply(messages: list, system_prompt: str = None) -> str:
             
             content = response.choices[0].message.content
             
-            # Check if OpenRouter gave us a valid response and strip out any reasoning model <think> blocks
             if content and content.strip():
                 cleaned_content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
                 if cleaned_content:
@@ -47,7 +46,7 @@ async def generate_reply(messages: list, system_prompt: str = None) -> str:
             logger.warning(f"Attempt {attempt + 1}: Received blank text from API.")
             
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1} API Error: {e}")
+            logger.error(f"Attempt {attempt + 1} API Error: {type(e).__name__} - {e}")
             
         if attempt < max_retries - 1:
             await asyncio.sleep(1.5 * (attempt + 1))
