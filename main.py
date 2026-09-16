@@ -1,7 +1,9 @@
 import asyncio
 import json
 import logging
+import os
 import re
+from aiohttp import web
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.enums import ChatAction
@@ -18,6 +20,23 @@ logger = logging.getLogger(__name__)
 bot = Bot(token=config.TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
 
+# --- Lightweight Web Server for Render Health Check ---
+async def handle_ping(request):
+    return web.Response(text="Zane is alive and running!")
+
+async def start_webserver():
+    """Runs a minimal HTTP ping endpoint so Render Web Service stays alive."""
+    app = web.Application()
+    app.router.add_get("/", handle_ping)
+    app.router.add_get("/healthz", handle_ping)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.getenv("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    logger.info(f"Health check webserver active on port {port}")
+
+# --- Zane Message & Task Handlers ---
 async def simulate_human_typing(chat_id: int, text: str):
     """Snappy typing delay capped at 1.0s to keep replies fast."""
     delay = min(max(len(text) * 0.012, 0.4), 1.0)
@@ -111,7 +130,6 @@ async def handle_message(message: types.Message):
     else:
         cleaned_response = raw_response.strip()
 
-    # Ensure there is always a fallback string just in case regex parsing strips too much
     if not cleaned_response:
         cleaned_response = "Ahhh Wait... Error"
 
@@ -139,7 +157,7 @@ async def handle_message(message: types.Message):
 
 async def main():
     await memory.init_db()
-    # Dynamically prints the active model so it never crashes if you change providers
+    await start_webserver()
     print(f"Zane online. Backend: {config.ACTIVE_MODEL}")
     await dp.start_polling(bot)
 
