@@ -25,13 +25,13 @@ async def handle_ping(request):
     return web.Response(text="Zane is alive and running!")
 
 async def start_webserver():
-    """Runs a minimal HTTP ping endpoint so Render Web Service stays alive."""
+    """Runs a minimal HTTP ping endpoint so Render Web Service detects an open port."""
     app = web.Application()
     app.router.add_get("/", handle_ping)
     app.router.add_get("/healthz", handle_ping)
     runner = web.AppRunner(app)
     await runner.setup()
-    port = int(os.getenv("PORT", 8080))
+    port = int(os.getenv("PORT", 10000))
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
     logger.info(f"Health check webserver active on port {port}")
