@@ -4,7 +4,7 @@ import logging
 import re
 from typing import Dict, List
 
-DB_PATH = "data/memory.db"
+DB_PATH = "memory.db"
 logger = logging.getLogger(__name__)
 
 DEFAULT_MEMORY = {
